@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://Test-user-1:Test-user-1@cluster0.nko3r0y.mongodb.net/?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://Test-user-1:Test-user-1@cluster0.nko3r0y.mongodb.net/?retryWrites=true&w=majority",
+    "jwtSecret": "OneRingToRuleThemAll"
 }
