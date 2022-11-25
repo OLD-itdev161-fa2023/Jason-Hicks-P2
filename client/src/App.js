@@ -4,15 +4,15 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import './App.css';
 import Register from './components/Register/Register';
 import Login from './components/Login/Login';
-import PostList from './components/PostList/PostList';
-import Post from './components/Post/Post';
-import CreatePost from './components/Post/CreatePost';
-import EditPost from './components/Post/EditPost';
+import EntryList from './components/EntryList/EntryList';
+import Entry from './components/Entry/Entry';
+import CreateEntry from './components/Entry/CreateEntry';
+import EditEntry from './components/Entry/EditEntry';
 
 class App extends React.Component {
   state = {
-    posts: [],
-    post: null,
+    entrys: [],
+    entry: null,
     token: null,
     user: null
   };
@@ -66,10 +66,10 @@ class App extends React.Component {
         }
       };
       axios
-        .get('http://localhost:5000/api/posts', config)
+        .get('http://localhost:5000/api/entrys', config)
         .then(response => {
           this.setState({
-            posts: response.data
+            entrys: response.data
           });
         })
         .catch(error => {
@@ -84,14 +84,14 @@ class App extends React.Component {
     this.setState({ user: null, token: null });
   }
 
-  viewPost = post => {
-    console.log(`view ${post.title}`);
+  viewEntry = entry => {
+    console.log(`view ${entry.title}`);
     this.setState({
-      post: post
+      entry: entry
     });
   };
 
-  deletePost = post => {
+  deleteEntry = entry => {
     const { token } = this.state;
 
     if (token) {
@@ -102,47 +102,47 @@ class App extends React.Component {
       };
 
       axios
-        .delete(`http://localhost:5000/api/posts/${post._id}`, config)
+        .delete(`http://localhost:5000/api/entrys/${entry._id}`, config)
         .then(response => {
-          const newPosts = this.state.posts.filter(p => p._id !== post._id);
+          const newEntrys = this.state.entrys.filter(p => p._id !== entry._id);
           this.setState({
-            posts: [...newPosts]
+            entrys: [...newEntrys]
           });
         })
         .catch(error => {
-          console.error(`Error deleting post: ${error}`);
+          console.error(`Error deleting entry: ${error}`);
         });
     }
   };
 
-  editPost = post => {
+  editEntry = entry => {
     this.setState({
-      post: post
+      entry: entry
     });
   };
 
-  onPostCreated = post => {
-    const newPosts = [...this.state.posts, post];
+  onEntryCreated = entry => {
+    const newEntrys = [...this.state.entrys, entry];
 
     this.setState({
-      posts: newPosts
+      entrys: newEntrys
     });
   };
 
-  onPostUpdated = post => {
-    console.log('update post: ', post);
-    const newPosts = [...this.state.posts];
-    const index = newPosts.findIndex(p => p._id === post._id);
+  onEntryUpdated = entry => {
+    console.log('update entry: ', entry);
+    const newEntrys = [...this.state.entrys];
+    const index = newEntrys.findIndex(p => p._id === entry._id);
 
-    newPosts[index] = post;
+    newEntrys[index] = entry;
 
     this.setState({
-      posts: newPosts
+      entrys: newEntrys
     });
   };
 
   render() {
-    let { user, posts, post, token } = this.state;
+    let { user, entrys, entry, token } = this.state;
     const authProps = {
       authenticateUser: this.authenticateUser
     };
@@ -158,7 +158,7 @@ class App extends React.Component {
               </li>
               <li>
                 {user ? (
-                  <Link to="/new-post">New Post</Link>
+                  <Link to="/new-entry">New Entry</Link>
                 ) : (
                   <Link to="/register">Register</Link>
                 )}
@@ -180,28 +180,28 @@ class App extends React.Component {
                 {user ? (
                   <React.Fragment>
                     <div>Hello {user}!</div>
-                    <PostList 
-                      posts={posts} 
-                      clickPost={this.viewPost} 
-                      deletePost={this.deletePost}
-                      editPost={this.editPost}
+                    <EntryList 
+                      entrys={entrys} 
+                      clickEntry={this.viewEntry} 
+                      deleteEntry={this.deleteEntry}
+                      editEntry={this.editEntry}
                     />
                   </React.Fragment>
                 ) : (
                   <React.Fragment>Please Register or Login</React.Fragment>
                 )}
               </Route>
-              <Route path="/posts/:postId">
-                <Post post={post} />
+              <Route path="/entrys/:entryId">
+                <Entry entry={entry} />
               </Route>
-              <Route path="/new-post">
-                <CreatePost token={token} onPostCreated={this.onPostCreated} />
+              <Route path="/new-entry">
+                <CreateEntry token={token} onEntryCreated={this.onEntryCreated} />
               </Route>
-              <Route path="/edit-post/:postId">
-                <EditPost
+              <Route path="/edit-entry/:entryId">
+                <EditEntry
                   token={token}
-                  post={post}
-                  onPostUpdated={this.onPostUpdated}
+                  entry={entry}
+                  onEntryUpdated={this.onEntryUpdated}
                 />
               </Route>
               <Route

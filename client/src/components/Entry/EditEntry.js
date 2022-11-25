@@ -3,19 +3,19 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import './styles.css';
 
-const EditPost = ({ token, post, onPostUpdated }) => {
+const EditEntry = ({ token, entry, onEntryUpdated }) => {
     let history = useHistory();
-    const [postData, setPostData] = useState({
-        title: post.title,
-        body: post.body
+    const [entryData, setEntryData] = useState({
+        title: entry.title,
+        body: entry.body
     });
-    const { title, body } = postData;
+    const { title, body } = entryData;
 
     const onChange = e => {
         const {name, value } = e.target;
 
-        setPostData({
-            ...postData,
+        setEntryData({
+            ...entryData,
             [name]: value
         });
     };
@@ -24,7 +24,7 @@ const EditPost = ({ token, post, onPostUpdated }) => {
         if (!title || !body) {
             console.log('Title and body are required');
         } else {
-            const newPost = {
+            const newEntry = {
                 title: title,
                 body: body
             };
@@ -36,24 +36,24 @@ const EditPost = ({ token, post, onPostUpdated }) => {
                     }
                 };
 
-                const body = JSON.stringify(newPost);
+                const body = JSON.stringify(newEntry);
                 const res = await axios.put(
-                    `http://localhost:5000/api/posts/${post._id}`,
+                    `http://localhost:5000/api/entrys/${entry._id}`,
                     body,
                     config
                 );
 
-                onPostUpdated(res.data);
+                onEntryUpdated(res.data);
                 history.push('/');
             } catch (error){
-                console.error(`Error creating post: ${error.response.data}`);
+                console.error(`Error creating entry: ${error.response.data}`);
             }
         }
     };
 
     return (
         <div className="form-contatainer">
-            <h2>Edit Post</h2>
+            <h2>Edit Entry</h2>
             <input
                 name="title"
                 type="text"
@@ -73,4 +73,4 @@ const EditPost = ({ token, post, onPostUpdated }) => {
     );
 };
 
-export default EditPost;
+export default EditEntry;

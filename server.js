@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import config from 'config';
 import User from './models/User';
-import Post from './models/Post';
+import Entry from './models/Entry';
 import auth from './middleware/auth';
 import { Route } from 'react-router-dom';
 
@@ -151,11 +151,11 @@ app.post(
 );
 
 /**
- * @route POST api/posts
- * @desc Create post
+ * @route POST api/entrys
+ * @desc Create entry
  */
 app.post(
-    '/api/posts',
+    '/api/entrys',
     [
         auth,
         [
@@ -177,15 +177,15 @@ app.post(
                 
                 const user = await User.findById(req.user.id);
 
-                const post = new Post({
+                const entry = new Entry({
                     user: user.id,
                     title: title,
                     body: body
                 });
 
-                await post.save();
+                await entry.save();
 
-                res.json(post);
+                res.json(entry);
             } catch (error) {
                 console.error(error);
                 res.status(500).send('Server error');
@@ -195,14 +195,14 @@ app.post(
 );
 
 /**
- * @route GET api/posts
- * @desc Get posts
+ * @route GET api/entrys
+ * @desc Get entrys
  */
-app.get('/api/posts', auth, async (req, res) => {
+app.get('/api/entrys', auth, async (req, res) => {
     try{
-        const posts = await Post.find().sort({date: -1 });
+        const entrys = await Entry.find().sort({date: -1 });
 
-        res.json(posts);
+        res.json(entrys);
     } catch (error) {
         console.error(error);
         res.status(500).send('Server error');
@@ -210,18 +210,18 @@ app.get('/api/posts', auth, async (req, res) => {
 });
 
 /**
- * @route GET api/posts/:id
- * @desc Get post
+ * @route GET api/entrys/:id
+ * @desc Get entry
  */
-app.get('/api/posts/:id', auth, async (req, res) => {
+app.get('/api/entrys/:id', auth, async (req, res) => {
     try{
-        const post = await Post.findById(req.params.id);
+        const entry = await Entry.findById(req.params.id);
 
-        if (!post){
-            return res.status(404).json({ msg: 'Post not found' });
+        if (!entry){
+            return res.status(404).json({ msg: 'Entry not found' });
         }
 
-        res.json(post);
+        res.json(entry);
     } catch (error) {
         console.error(error);
         res.status(500).send('Server error');
@@ -229,24 +229,24 @@ app.get('/api/posts/:id', auth, async (req, res) => {
 });
 
 /**
- * @route DELETE api/posts/:id
- * @desc Delete post
+ * @route DELETE api/entrys/:id
+ * @desc Delete entry
  */
-app.delete('/api/posts/:id', auth, async (req, res) => {
+app.delete('/api/entrys/:id', auth, async (req, res) => {
     try{
-        const post = await Post.findById(req.params.id);
+        const entry = await Entry.findById(req.params.id);
 
-        if (!post){
-            return res.status(404).json({ msg: 'Post not found' });
+        if (!entry){
+            return res.status(404).json({ msg: 'Entry not found' });
         }
 
-        if (post.user.toString() !== req.user.id) {
+        if (entry.user.toString() !== req.user.id) {
             return res .status(401).json({ msg: 'User not authorized' });
         }
 
-        await post.remove();
+        await entry.remove();
 
-        res.json({ msg: 'Post removed'});
+        res.json({ msg: 'Entry removed'});
     } catch (error) {
         console.error(error);
         res.status(500).send('Server error');
@@ -254,28 +254,28 @@ app.delete('/api/posts/:id', auth, async (req, res) => {
 });
 
 /**
- * @route PUT api/posts/:id
- * @desc Update a post
+ * @route PUT api/entrys/:id
+ * @desc Update a entry
  */
-app.put('/api/posts/:id', auth, async (req, res) =>{
+app.put('/api/entrys/:id', auth, async (req, res) =>{
     try{
         const { title, body } = req.body;
-        const post = await Post.findById(req.params.id);
+        const entry = await Entry.findById(req.params.id);
 
-        if(!post){
-            return res.status(404).json({ msg: 'Post not found' });
+        if(!entry){
+            return res.status(404).json({ msg: 'Entry not found' });
         }
 
-        if (post.user.toString() !== req.user.id) {
+        if (entry.user.toString() !== req.user.id) {
             return res.status(401).json({ msg: 'User not authorized' });
         }
 
-        post.title = title || post.title;
-        post.body = body || post.body;
+        entry.title = title || entry.title;
+        entry.body = body || entry.body;
 
-        await post.save();
+        await entry.save();
 
-        res.json(post);
+        res.json(entry);
     } catch (error) {
         console.error(error);
         res.status(500).send('Server error');

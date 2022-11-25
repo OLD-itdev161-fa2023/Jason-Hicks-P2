@@ -3,19 +3,19 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import './styles.css';
 
-const CreatePost = ({ token, onPostCreated }) => {
+const CreateEntry = ({ token, onEntryCreated }) => {
     let history = useHistory();
-    const [postData, setPostData] = useState({
+    const [entryData, setEntryData] = useState({
         title: '',
         body: ''
     });
-    const { title, body } = postData;
+    const { title, body } = entryData;
 
     const onChange = e => {
         const {name, value } = e.target;
 
-        setPostData({
-            ...postData,
+        setEntryData({
+            ...entryData,
             [name]: value
         });
     };
@@ -24,7 +24,7 @@ const CreatePost = ({ token, onPostCreated }) => {
         if (!title || !body) {
             console.log('Title and body are required');
         } else {
-            const newPost = {
+            const newEntry = {
                 title: title,
                 body: body
             };
@@ -37,24 +37,24 @@ const CreatePost = ({ token, onPostCreated }) => {
                     }
                 };
 
-                const body = JSON.stringify(newPost);
-                const res = await axios.post(
-                    'http://localhost:5000/api/posts',
+                const body = JSON.stringify(newEntry);
+                const res = await axios.entry(
+                    'http://localhost:5000/api/entrys',
                     body,
                     config
                 );
 
-                onPostCreated(res.data);
+                onEntryCreated(res.data);
                 history.push('/');
             } catch (error) {
-                console.error(`Error creating post: ${error.response.data}`);
+                console.error(`Error creating entry: ${error.response.data}`);
             }
         }
     };
 
     return (
         <div className='form-contatainer'>
-            <h2>Create New Post</h2>
+            <h2>Create New Entry</h2>
             <input
                 name="title"
                 type="text"
@@ -74,4 +74,4 @@ const CreatePost = ({ token, onPostCreated }) => {
     );
 };
 
-export default CreatePost;
+export default CreateEntry;
