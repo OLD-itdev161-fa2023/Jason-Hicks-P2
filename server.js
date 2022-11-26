@@ -41,7 +41,9 @@ app.post(
         check('name', 'Please enter your name')
             .not()
             .isEmpty(),
-        check('email', 'Please enter a valid email').isEmail(),
+        check('device', 'Please enter a valid device')
+            .not()
+            .isEmpty(),
         check(
             'password', 
             'please enter a password with 6 or more characters'
@@ -52,9 +54,9 @@ app.post(
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
         } else {
-            const { name, email, password } = req.body;
+            const { name, device, password } = req.body;
             try {
-                let user = await User.findOne({ email: email });
+                let user = await User.findOne({ device: device });
                 if(user) {
                     return res
                         .status(400)
@@ -63,7 +65,7 @@ app.post(
 
                 user = new User({
                     name: name,
-                    email: email,
+                    device: device,
                     password: password
                 });
 
@@ -118,7 +120,9 @@ app.get('/api/auth', auth, async (req, res) => {
 app.post(
     '/api/login',
     [
-        check('email', 'Please enter a valid email').isEmail(),
+        check('device', 'Please enter a valid device')
+            .not()
+            .isEmpty(),
         check('password', 'Please enter a password').exists()
     ],
     async (req, res) => {
@@ -126,20 +130,20 @@ app.post(
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
         } else {
-            const { email, password } = req.body;
+            const { device, password } = req.body;
             try {
-                let user = await User.findOne({ email: email });
+                let user = await User.findOne({ device: device });
                 if(!user) {
                     return res
                         .status(400)
-                        .json({ errors: [{ msg: 'Invalid email or password' }] });
+                        .json({ errors: [{ msg: 'Invalid device or password' }] });
                 }
 
                 const match = await bcrypt.compare(password, user.password);
                 if (!match) {
                     return res
                         .status(400)
-                        .json({ errors: [{ msg: 'Invalid email or password' }] })
+                        .json({ errors: [{ msg: 'Invalid device or password' }] })
                 }
 
                 returnToken(user, res);
