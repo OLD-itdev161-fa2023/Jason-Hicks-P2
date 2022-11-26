@@ -6,13 +6,13 @@ const Register = ({ authenticateUser }) => {
     let history = useHistory();
     const [userData, setUserData] = useState({
         name: '',
-        email: '',
+        device: '',
         password: '',
         passwordConfirm: ''
     });
     const [errorData, setErrorData] = useState({ errors: null });
 
-    const { name, email, password, passwordConfirm } = userData;
+    const { name, device, password, passwordConfirm } = userData;
     const { errors } = errorData;
 
     const onChange = e => {
@@ -30,7 +30,7 @@ const Register = ({ authenticateUser }) => {
         else {
             const newUser = {
             name: name,
-            email: email,
+            device: device,
             password: password
         }
 
@@ -42,7 +42,7 @@ const Register = ({ authenticateUser }) => {
             }
 
             const body = JSON.stringify(newUser);
-            const res = await axios.entry('http://localhost:5000/api/users', body, config);
+            const res = await axios.post('http://localhost:5000/api/users', body, config);
         
             // Store user data and redirect
             localStorage.setItem('token', res.data.token);
@@ -75,9 +75,9 @@ const Register = ({ authenticateUser }) => {
         <div>
             <input 
                 type="text" 
-                placeholder="Email" 
-                name="email" 
-                value={email} 
+                placeholder="Device" 
+                name="device" 
+                value={device} 
                 onChange={e => onChange(e)} />
         </div>
         <div>

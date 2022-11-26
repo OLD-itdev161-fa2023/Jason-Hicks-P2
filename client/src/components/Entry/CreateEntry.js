@@ -6,10 +6,11 @@ import './styles.css';
 const CreateEntry = ({ token, onEntryCreated }) => {
     let history = useHistory();
     const [entryData, setEntryData] = useState({
-        title: '',
-        body: ''
+        temperature: '',
+        windspeed: '',
+        rainfall: ''
     });
-    const { title, body } = entryData;
+    const { temperature, windspeed, rainfall} = entryData;
 
     const onChange = e => {
         const {name, value } = e.target;
@@ -21,12 +22,13 @@ const CreateEntry = ({ token, onEntryCreated }) => {
     };
 
     const create = async () => {
-        if (!title || !body) {
-            console.log('Title and body are required');
+        if (!temperature || !windspeed || !rainfall) {
+            console.log('temperature, windspeed and rainfall is necssary');
         } else {
             const newEntry = {
-                title: title,
-                body: body
+                temperature: temperature,
+                windspeed: windspeed,
+                rainfall: rainfall
             };
             
             try {
@@ -38,7 +40,7 @@ const CreateEntry = ({ token, onEntryCreated }) => {
                 };
 
                 const body = JSON.stringify(newEntry);
-                const res = await axios.entry(
+                const res = await axios.post(
                     'http://localhost:5000/api/entrys',
                     body,
                     config
@@ -54,21 +56,28 @@ const CreateEntry = ({ token, onEntryCreated }) => {
 
     return (
         <div className='form-contatainer'>
-            <h2>Create New Entry</h2>
+            <h2 className='title'>Create New Entry</h2>
             <input
-                name="title"
+                name="temperature"
                 type="text"
-                placeholder="Title"
-                value={title}
+                placeholder="temperature"
+                value={temperature}
                 onChange={e => onChange(e)}
             />
-            <textarea
-                name="body"
-                cols="30"
-                rows="10"
-                value={body}
+            <input
+                name="windspeed"
+                type="text"
+                placeholder="windspeed"
+                value={windspeed}
                 onChange={e => onChange(e)}
-            ></textarea>
+            ></input>
+            <input
+                name="rainfall"
+                type="text"
+                placeholder="rainfall"
+                value={rainfall}
+                onChange={e => onChange(e)}
+            ></input>
             <button onClick={() => create()}>Submit</button>
         </div>
     );

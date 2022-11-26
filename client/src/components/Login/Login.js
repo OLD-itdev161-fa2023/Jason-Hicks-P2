@@ -5,12 +5,12 @@ import { useHistory } from 'react-router-dom';
 const Login = ({ authenticateUser }) => {
     let history = useHistory();
     const [userData, setUserData] = useState({
-        email: '',
+        device: '',
         password: ''
     });
     const [errorData, setErrorData] = useState({ errors: null });
 
-    const { email, password } = userData;
+    const { device, password } = userData;
     const { errors } = errorData;
 
     const onChange = e => {
@@ -23,7 +23,7 @@ const Login = ({ authenticateUser }) => {
 
     const loginUser = async () => {
         const newUser = {
-            email: email,
+            device: device,
             password: password
         }
 
@@ -60,9 +60,9 @@ const Login = ({ authenticateUser }) => {
         <div>
             <input 
                 type="text" 
-                placeholder="Email" 
-                name="email" 
-                value={email} 
+                placeholder="Device" 
+                name="device" 
+                value={device} 
                 onChange={e => onChange(e)} />
         </div>
         <div>

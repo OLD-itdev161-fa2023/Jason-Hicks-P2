@@ -6,10 +6,11 @@ import './styles.css';
 const EditEntry = ({ token, entry, onEntryUpdated }) => {
     let history = useHistory();
     const [entryData, setEntryData] = useState({
-        title: entry.title,
-        body: entry.body
+        temperature: entry.temperature,
+        windspeed: entry.windspeed,
+        rainfall: entry.rainfall
     });
-    const { title, body } = entryData;
+    const { temperature, windspeed, rainfall } = entryData;
 
     const onChange = e => {
         const {name, value } = e.target;
@@ -21,12 +22,13 @@ const EditEntry = ({ token, entry, onEntryUpdated }) => {
     };
 
     const update = async () => {
-        if (!title || !body) {
-            console.log('Title and body are required');
+        if (!temperature || !windspeed || !rainfall) {
+            console.log('Title and windspeed are required');
         } else {
             const newEntry = {
-                title: title,
-                body: body
+                temperature: temperature,
+                windspeed: windspeed,
+                rainfall: rainfall
             };
             try {
                 const config = {
@@ -55,19 +57,26 @@ const EditEntry = ({ token, entry, onEntryUpdated }) => {
         <div className="form-contatainer">
             <h2>Edit Entry</h2>
             <input
-                name="title"
+                name="temperature"
                 type="text"
-                placeholder="Title"
-                value={title}
+                placeholder="Temperature"
+                value={temperature}
                 onChange={e => onChange(e)}
             />
-            <textarea
-                name="body"
-                cols="30"
-                rows="10"
-                value={body}
+            <input
+                name="windspeed"
+                type="text"
+                placeholder="Windspeed"
+                value={windspeed}
                 onChange={e => onChange(e)}
-            ></textarea>
+            ></input>
+            <input
+                name="rainfall"
+                type="text"
+                placeholder="Rainfall"
+                value={rainfall}
+                onChange={e => onChange(e)}
+            ></input>
             <button onClick={() => update()}>Submit</button>
         </div>
     );

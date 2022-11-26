@@ -4,14 +4,14 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #170555;
   min-height: 10vh;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(86, 236, 86);
   padding-left: 30px;
 }
 
@@ -33,17 +33,26 @@
 .App-header ul li a
 {
   font-size: calc(5px + 2vmin);
-  color: #ffffff;
+  color: rgb(86, 236, 86);
   text-decoration: none;
 }
 
 .App-link {
-  color: #61dafb;
+  color:  rgb(86, 236, 86);
 }
 
 main
 {
   margin: 30px;
+}
+
+main div {
+  color: green;
+}
+
+.Title {
+  color: green;
+  
 }
 
 @keyframes App-logo-spin {

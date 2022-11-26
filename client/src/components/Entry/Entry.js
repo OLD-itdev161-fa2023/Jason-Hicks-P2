@@ -5,8 +5,10 @@ const Entry = props => {
 
     return (
         <div>
-            <h1>{entry.title}</h1>
-            <p>{entry.body}</p>
+            <h1>{entry.data}</h1>
+            <p>{entry.temperature}</p>
+            <p>{entry.windspeed}</p>
+            <p>{entry.rainfall}</p>
         </div>
     )
 }

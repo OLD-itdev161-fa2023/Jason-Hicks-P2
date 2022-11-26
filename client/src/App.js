@@ -85,7 +85,7 @@ class App extends React.Component {
   }
 
   viewEntry = entry => {
-    console.log(`view ${entry.title}`);
+    console.log(`view ${entry.date}`);
     this.setState({
       entry: entry
     });
@@ -151,7 +151,7 @@ class App extends React.Component {
       <Router>
         <div className="App">
           <header className="App-header">
-            <h1>GoodThings</h1>
+            <h1>Your Wether</h1>
             <ul>
               <li>
                 <Link to="/">Home</Link>
@@ -188,7 +188,11 @@ class App extends React.Component {
                     />
                   </React.Fragment>
                 ) : (
-                  <React.Fragment>Please Register or Login</React.Fragment>
+                  < React.Fragment >
+                    <div>
+                      <h1>Please Register or Login</h1>
+                    </div>
+                  </React.Fragment>
                 )}
               </Route>
               <Route path="/entrys/:entryId">

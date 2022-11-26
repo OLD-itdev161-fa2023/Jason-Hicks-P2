@@ -5,11 +5,15 @@ const EntrySchema = new mongoose.Schema({
         type: 'ObjectId',
         ref: 'User'
     },
-    title: {
+    temperature: {
         type: String,
         required: true
     },
-    body: {
+    windspeed: {
+        type: String,
+        required: true
+    },
+    rainfall: {
         type: String,
         required: true
     },

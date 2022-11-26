@@ -8,7 +8,7 @@ const EntryListItem = props => {
     const history = useHistory();
 
     const handleClickEntry = entry => {
-        const slug = slugify(entry.title, { lower: true});
+        const slug = slugify(entry.date, { lower: true});
 
         clickEntry(entry);
         history.push(`/entrys/${slug}`);
@@ -22,8 +22,10 @@ const EntryListItem = props => {
     return(
         <div>
             <div className="entryListItem" onClick={() => handleClickEntry(entry)}>
-                <h2>{entry.title}</h2>
-                <p>{entry.body}</p>
+                <h2>{entry.date}</h2>
+                <p>{entry.temperature}</p>
+                <p>{entry.windspeed}</p>
+                <p>{entry.rainfall}</p>
             </div>
             <div className="entryControls">
                 <button onClick={() => deleteEntry(entry)}>Delete</button>

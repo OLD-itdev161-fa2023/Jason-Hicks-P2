@@ -1,25 +1,37 @@
-.postListItem {
+div {
+    background-color: black;
+}
+
+.entryListItem {
     padding: 10px;
     border: solid 1px transparent;
 }
 
-.postListItem:hover {
-    background-color: #eeeeee;
+.entryListItem:hover {
+    background-color: #000000;
     border-color: #aaaaaa;
     cursor: pointer;
 }
 
-.postListItem p {
+
+
+.entryListItem h2{
+    max-width: 750px;
+    color: green;
+}
+
+.entryListItem p {
     max-width: 500px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: green;
 }
 
-.postControls{
+.entryControls{
     margin: 10px 0 10px 0;
 }
 
-.postControls button {
+.entryControls button {
     margin-left: 10px;
 }

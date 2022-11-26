@@ -163,12 +163,15 @@ app.post(
     [
         auth,
         [
-            check('title', 'Title text is required')
+            check('temperature', 'Temperature required')
                 .not()
                 .isEmpty(),
-            check('body', 'Body text is required')
+            check('windspeed', 'Windspeed is required')
                 .not()
-                .isEmpty()
+                .isEmpty(),
+            check('rainfall', 'Windspeed is required')
+                .not()
+                .isEmpty(),
         ]
     ],
     async (req, res) => {
@@ -176,15 +179,16 @@ app.post(
         if (!errors.isEmpty()) {
             res.status(400).json({ errors: errors.array() });
         } else {
-            const {title, body } = req.body;
+            const {temperature, windspeed, rainfall } = req.body;
             try{
                 
                 const user = await User.findById(req.user.id);
 
                 const entry = new Entry({
                     user: user.id,
-                    title: title,
-                    body: body
+                    temperature: temperature,
+                    windspeed: windspeed,
+                    rainfall: rainfall
                 });
 
                 await entry.save();
@@ -263,7 +267,7 @@ app.delete('/api/entrys/:id', auth, async (req, res) => {
  */
 app.put('/api/entrys/:id', auth, async (req, res) =>{
     try{
-        const { title, body } = req.body;
+        const { temperature, windspeed, rainfall } = req.body;
         const entry = await Entry.findById(req.params.id);
 
         if(!entry){
@@ -274,8 +278,9 @@ app.put('/api/entrys/:id', auth, async (req, res) =>{
             return res.status(401).json({ msg: 'User not authorized' });
         }
 
-        entry.title = title || entry.title;
-        entry.body = body || entry.body;
+        entry.temperature = temperature || entry.temperature;
+        entry.windspeed = windspeed || entry.windspeed;
+        entry.rainfall = rainfall || entry.rainfall
 
         await entry.save();
 
